@@ -9,16 +9,24 @@ import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.List;
 
+import com.codetest.tools.fragment.MockIn;
+
 public class Executor {
 
 	public static void main(String[] args) {
 		String mainClassName = args[0];
 		int seq = 0;
 		
+		System.out.println(mainClassName);
+		System.out.println();
+		
 		while (true) {
 			String[] values = loadFile(buildFilePath(simplify(mainClassName), ++seq));
 			if (values != null) {
+				System.out.println("------ [START] Test " + seq + " ------");
 				execute(mainClassName, values);
+				System.out.println("------ [END] Test " + seq + " ------");
+				System.out.println();
 			} else {
 				break;
 			}
@@ -46,15 +54,21 @@ public class Executor {
 			File f = new File(fileName);
 			BufferedReader br = new BufferedReader(new FileReader(f, Charset.forName("utf-8")));
 			System.out.println("File loaded: "+ fileName);
+
+			MockIn in = new MockIn();
+			System.setIn(in);
 			
 			String line;
 			while ((line = br.readLine()) != null) {
-				list.add(trim(line).replace(",", " "));
+				line = trim(line).replace(",", " ");
+				
+				in.type(line);
+				list.add(line);
 			}
 			br.close();
 			return list.toArray(new String[0]);
 		} catch (IOException e) {
-			System.out.println("End of test - No file found");
+			System.out.println("[END OF TEST] No file found...");
 			return null;
 		}
 	}
