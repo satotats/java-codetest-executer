@@ -1,6 +1,6 @@
-package com.codetest.templates;
+package com.codetest.library;
 
-public class TimeControlTemplate {
+public class TimeControlLibrary {
 
 	/**
 	 *  time[0] = hh
