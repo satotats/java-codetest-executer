@@ -15,13 +15,15 @@ public class Executor {
 
 	public static void main(String[] args) {
 		String mainClassName = args[0];
-		int seq = 0;
 		
-		System.out.println(mainClassName);
+		System.out.println("Execute tests -> " + mainClassName);
 		System.out.println();
 		
+		String simpleClassName = simplify(mainClassName);
+		int seq = 0;
+		
 		while (true) {
-			String[] values = loadFile(buildFilePath(simplify(mainClassName), ++seq));
+			String[] values = loadFile(buildFilePath(simpleClassName, ++seq));
 			if (values != null) {
 				System.out.println("------ [START] Test " + seq + " ------");
 				execute(mainClassName, values);
