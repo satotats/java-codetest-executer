@@ -7,7 +7,7 @@ fun main() {
     val line = readLine()!!.split(' ').map{ it.toInt() }
     val H = line[0]
     val W = line[1]
-    val numOfMove = line[4]
+    val numOfTurn = line[4]
 
     var point = line[2] to line[3] // y to x
     var currentDirection = 0;
@@ -15,16 +15,14 @@ fun main() {
     val map = List(H) {
         readLine()!!.chunked(1)
     }
-    println(map)
 
     val clock = mutableMapOf<Int, String>()
-    var command: String? = readLine()
-    while(command != null) {
-        command.split(" ").let{ clock.put(it[0].toInt(), it[1]) }
-        command = readLine()
+    repeat(numOfTurn) {
+        readLine()!!.split(" ")
+            .let{ clock.put(it[0].toInt(), it[1]) }
     }
 
-    for(i in 0 until 99) {
+    for(i in 0 .. 99) {
         clock[i]?.run { currentDirection = updateDirection(currentDirection, this) }
         point = tryMove(point, currentDirection)
         if (moveSucceed(point, map)) {
@@ -38,20 +36,18 @@ fun main() {
 }
 
 
-fun updateDirection(currentDirection: Int, turn: String): Int {
-    var newDirection = when(turn) {
+fun updateDirection(currentDirection: Int, turnTo: String): Int {
+    var newDirection = when(turnTo) {
         "R" -> currentDirection + 1
         "L" -> currentDirection - 1
-        else -> throw RuntimeException("something went wrong: given - $turn")
+        else -> throw RuntimeException("something went wrong: given - $turnTo")
     }
 
-    if (newDirection > 3) {
-        newDirection -= 4
-    } else if (newDirection < 0) {
-        newDirection += 4
+    return when {
+        newDirection < 0 -> newDirection + 4
+        newDirection > 3 -> newDirection - 4
+        else -> newDirection
     }
-
-    return newDirection
 }
 
 // direction
