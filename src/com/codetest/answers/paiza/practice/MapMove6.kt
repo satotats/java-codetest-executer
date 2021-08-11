@@ -68,14 +68,14 @@ fun tryMove(point: Pair<Int, Int>, direction: Int): Pair<Int, Int> {
 
 fun moveSucceed(point: Pair<Int, Int>, map: List<List<String>>) = !(isOutOfMap(point, map.size to map.first().size) || isObstacle(point, map))
 
-fun isOutOfMap(point: Pair<Int, Int>, mapSize: Pair<Int, Int>): Boolean {
+private fun isOutOfMap(point: Pair<Int, Int>, mapSize: Pair<Int, Int>): Boolean {
     return (point.first >= mapSize.first || point.second >= mapSize.second)
             || (point.first < 0 || point.second < 0)
 }
 
-const val OBSTACLE = "#"
+private const val OBSTACLE = "#"
 
-fun isObstacle(point: Pair<Int, Int>, map: List<List<String>>): Boolean {
+private fun isObstacle(point: Pair<Int, Int>, map: List<List<String>>): Boolean {
     return map[point.first][point.second] == OBSTACLE
 }
 
